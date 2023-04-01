@@ -29,7 +29,6 @@ public class ConnectionServiceImpl implements ConnectionService {
         }//check the connection status
 
 
-
         if(user.getOriginalCountry().getCountryName().toString().equalsIgnoreCase(countryName))return user;
         //check if the country of user is the requested country
 
@@ -62,7 +61,7 @@ public class ConnectionServiceImpl implements ConnectionService {
         String mask = "";
         String code = country.getCode();
 
-        mask = code+"."+id;
+        mask = code+"."+id+"."+user.getId();
 
         //update user
        user.setMaskedIp(mask);
