@@ -1,15 +1,15 @@
 package com.driver.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
+
 public class Connection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
