@@ -77,10 +77,9 @@ public class ConnectionServiceImpl implements ConnectionService {
 
             userRepository2.save(user);
             serviceProviderRepository2.save(desiredOne);
-
-            return user;
         }
 
+        return user;
     }
     @Override
     public User disconnect(int userId) throws Exception {
