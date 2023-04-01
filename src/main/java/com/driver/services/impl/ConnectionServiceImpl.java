@@ -31,10 +31,10 @@ public class ConnectionServiceImpl implements ConnectionService {
         //check if the country of user is the requested country
 
         //check if user have any service provider
-        if(user.getServiceProviders().isEmpty())throw new Exception("Unable to connect");
+        if(user.getServiceProviderList().isEmpty())throw new Exception("Unable to connect");
 
         //check if given country can be provided by the service provider
-        List<ServiceProvider>  serviceProviderList = user.getServiceProviders();
+        List<ServiceProvider>  serviceProviderList = user.getServiceProviderList();
        ServiceProvider desiredOne = null;
        Country country = null;
 

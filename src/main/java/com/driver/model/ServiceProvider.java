@@ -29,7 +29,7 @@ public class ServiceProvider {
     @OneToMany(mappedBy = "serviceProvider",cascade = CascadeType.ALL)
     List<Country> countryList = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "serviceProviders",cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "serviceProviderList",cascade = CascadeType.ALL)
     List<User> users = new ArrayList<>();
 
 }
