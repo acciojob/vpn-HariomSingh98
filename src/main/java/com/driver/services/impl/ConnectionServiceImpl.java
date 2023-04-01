@@ -63,7 +63,7 @@ public class ConnectionServiceImpl implements ConnectionService {
         String mask = "";
         String code = country.getCode();
 
-        mask = code+"."+id+"."+user.getId();
+        mask = code+"."+desiredOne.getId()+"."+user.getId();
 
         //update user
        user.setMaskedIp(mask);
