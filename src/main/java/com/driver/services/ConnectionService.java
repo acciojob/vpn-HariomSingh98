@@ -1,14 +1,7 @@
 package com.driver.services;
 
-import com.driver.model.*;
-import com.driver.repository.ConnectionRepository;
-import com.driver.repository.ServiceProviderRepository;
-import com.driver.repository.UserRepository;
-import com.driver.services.ConnectionService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.driver.model.User;
 
-import java.util.List;
 
 
 public interface ConnectionService {
