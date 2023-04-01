@@ -61,6 +61,8 @@ public class AdminServiceImpl implements AdminService {
             throw new Exception("invalid Service_Provider");
         }
 
+        countryName = countryName.toUpperCase();
+
         //create a country object
         Country country = new Country();
         CountryName c  = CountryName.valueOf(countryName);
