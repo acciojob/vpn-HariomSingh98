@@ -17,3 +17,7 @@ public enum CountryName {
         return this.code;
     }
 }
+
+
+//to get a value of constant we use
+// CountryName.valueOf("IND")-->001

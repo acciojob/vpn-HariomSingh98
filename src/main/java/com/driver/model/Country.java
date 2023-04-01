@@ -8,8 +8,7 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
+@Data
 
 public class Country{
     @Id
@@ -24,4 +23,6 @@ public class Country{
 
     @OneToOne
     User user;
+
+
 }

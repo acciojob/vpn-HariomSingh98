@@ -26,8 +26,9 @@ public class ConnectionServiceImpl implements ConnectionService {
 
         if(user.getConnected())throw new Exception("Already connected");//check the connection status
 
+        countryName = countryName.toUpperCase();
 
-        if(String.valueOf(user.getOriginalCountry().getCountryName()).equals(countryName))return user;
+        if(user.getOriginalCountry().getCountryName().name().equals(countryName))return user;
         //check if the country of user is the requested country
 
         //check if user have any service provider
@@ -41,7 +42,7 @@ public class ConnectionServiceImpl implements ConnectionService {
        int id =  Integer.MAX_VALUE;
        for(ServiceProvider s : serviceProviderList){
            for(Country c : s.getCountryList()){
-               if(String.valueOf(c.getCountryName()).equals(countryName) && s.getId()<id){
+               if(c.getCountryName().name().equals(countryName) && s.getId()<id){
                    id = s.getId();
                    desiredOne = s;
                    country = c;
@@ -79,7 +80,7 @@ public class ConnectionServiceImpl implements ConnectionService {
     public User disconnect(int userId) throws Exception {
        User user =userRepository2.findById(userId).get();
 
-       if(user.getConnected()==false)throw new Exception("Already disconnected");
+       if(!user.getConnected())throw new Exception("Already disconnected");
 
        user.setMaskedIp(null);
        user.setConnected(false);
@@ -95,7 +96,7 @@ public class ConnectionServiceImpl implements ConnectionService {
        User receiver =userRepository2.findById(receiverId).get();
 
 
-       if(receiver.getConnected()==true){//receiver is connected to vpn
+       if(receiver.getConnected()){//receiver is connected to vpn
            String mask = receiver.getMaskedIp().substring(0,3);
 
            if(sender.getOriginalCountry().getCode().equals(mask)){//receiver is connected to sender country
@@ -103,11 +104,11 @@ public class ConnectionServiceImpl implements ConnectionService {
            }
            //user is in different country so we have to establish a connection first with givencountry name
            String countryName="";
-           if(mask.equals(CountryName.AUS.toCode()))countryName= String.valueOf(CountryName.AUS);
-           if(mask.equals(CountryName.IND.toCode()))countryName= String.valueOf(CountryName.IND);
-           if(mask.equals(CountryName.USA.toCode()))countryName= String.valueOf(CountryName.USA);
-           if(mask.equals(CountryName.CHI.toCode()))countryName= String.valueOf(CountryName.CHI);
-           if(mask.equals(CountryName.JPN.toCode()))countryName= String.valueOf(CountryName.JPN);
+           if(mask.equals(CountryName.AUS.toCode()))countryName= CountryName.AUS.toString();
+           if(mask.equals(CountryName.IND.toCode()))countryName= CountryName.IND.toString();
+           if(mask.equals(CountryName.USA.toCode()))countryName= CountryName.USA.toString();
+           if(mask.equals(CountryName.CHI.toCode()))countryName= CountryName.CHI.toString();
+           if(mask.equals(CountryName.JPN.toCode()))countryName= CountryName.JPN.toString();
 
            User updatedSender = connect(senderId,countryName);
 

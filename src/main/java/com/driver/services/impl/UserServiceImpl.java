@@ -20,28 +20,41 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User register(String username, String password, String countryName) throws Exception{
-        Country country = new Country();
-        try {
-             String name = String.valueOf(CountryName.valueOf(countryName));
+
+         countryName = countryName.toUpperCase();
+
+         CountryName cn= null;
+
+
+
+         for(CountryName c : CountryName.values()){//iterate over enum constants
+
+             if(c.name().equals(countryName)){
+                 cn = c;
+                 break;
+             }
          }
-        catch(Exception e){
-            throw new Exception("Invalid Country");
-        }
-        //set country attribute
-        String code = CountryName.valueOf(countryName).toCode();
-        country.setCode(code);
-        country.setCountryName(CountryName.valueOf(countryName));
+         if(cn==null)throw new Exception("Country not found");
+
+
+        // create country object set country attribute
+        Country country = new Country();
+        country.setCountryName(cn);
+        country.setCode(cn.toCode());
+
 
         //create new object
         User user= new User();
         user.setConnected(false);
         user.setUsername(username);
         user.setPassword(password);
+        String code = country.getCode()+"."+user.getId();
+        user.setOriginalIp(code);
         user.setMaskedIp(null);
-        user.setOriginalIp(code+"."+user.getId());
+        user.setOriginalCountry(country);
 
 
-       country.setUser(user);
+        country.setUser(user);
 
         userRepository3.save(user);
 
