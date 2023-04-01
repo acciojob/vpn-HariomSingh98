@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
 
         //update user
-        user.getServiceProviderList().add(serviceProvider);
+        user.getServiceProviders().add(serviceProvider);
 
 
         //update service provider

@@ -27,20 +27,20 @@ public class ConnectionServiceImpl implements ConnectionService {
         if(user.getConnected())throw new Exception("Already connected");//check the connection status
 
 
-        if(String.valueOf(user.getCountry().getCountryName()).equals(countryName))return user;
+        if(String.valueOf(user.getOriginalCountry().getCountryName()).equals(countryName))return user;
         //check if the country of user is the requested country
 
         //check if user have any service provider
-        if(user.getServiceProviderList().isEmpty())throw new Exception("Unable to connect");
+        if(user.getServiceProviders().isEmpty())throw new Exception("Unable to connect");
 
         //check if given country can be provided by the service provider
-        List<ServiceProvider>  serviceProviderList = user.getServiceProviderList();
+        List<ServiceProvider>  serviceProviderList = user.getServiceProviders();
        ServiceProvider desiredOne = null;
        Country country = null;
 
        int id =  Integer.MAX_VALUE;
        for(ServiceProvider s : serviceProviderList){
-           for(Country c : s.getCountries()){
+           for(Country c : s.getCountryList()){
                if(String.valueOf(c.getCountryName()).equals(countryName) && s.getId()<id){
                    id = s.getId();
                    desiredOne = s;
@@ -98,7 +98,7 @@ public class ConnectionServiceImpl implements ConnectionService {
        if(receiver.getConnected()==true){//receiver is connected to vpn
            String mask = receiver.getMaskedIp().substring(0,3);
 
-           if(sender.getCountry().getCode().equals(mask)){//receiver is connected to sender country
+           if(sender.getOriginalCountry().getCode().equals(mask)){//receiver is connected to sender country
                return sender;
            }
            //user is in different country so we have to establish a connection first with givencountry name
@@ -118,11 +118,11 @@ public class ConnectionServiceImpl implements ConnectionService {
        }
        else {//if receiver is not connected to vpn
 
-           if(sender.getCountry().equals(receiver.getCountry())){//both are in same country
+           if(sender.getOriginalCountry().equals(receiver.getOriginalCountry())){//both are in same country
                return sender;
            }
            //connect the sender with receiver country
-           String countryName = receiver.getCountry().getCountryName().toString();
+           String countryName = receiver.getOriginalCountry().getCountryName().toString();
            User updatedSender = connect(senderId,countryName);
            if(!updatedSender.getConnected()){//we are not able to connect the sender with given country
                throw  new Exception("Cannot establish communication");

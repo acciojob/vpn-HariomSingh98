@@ -24,13 +24,13 @@ public class User {
 
     @ManyToMany
     @JoinColumn
-    List<ServiceProvider> serviceProviderList = new ArrayList<>();
+    List<ServiceProvider> serviceProviders = new ArrayList<>();
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     List<Connection> connectionList = new ArrayList<>();
 
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
-    Country country;
+    Country originalCountry;
 
 
 }
