@@ -24,11 +24,13 @@ public class ConnectionServiceImpl implements ConnectionService {
     public User connect(int userId, String countryName) throws Exception{
         User user = userRepository2.findById(userId).get();
 
-        if(user.getConnected())throw new Exception("Already connected");//check the connection status
+        if(user.getMaskedIp()!=null){
+            throw new Exception("Already connected");
+        }//check the connection status
 
-        countryName = countryName.toUpperCase();
 
-        if(user.getOriginalCountry().getCountryName().name().equals(countryName))return user;
+
+        if(user.getOriginalCountry().getCountryName().toString().equalsIgnoreCase(countryName))return user;
         //check if the country of user is the requested country
 
         //check if user have any service provider
@@ -36,13 +38,14 @@ public class ConnectionServiceImpl implements ConnectionService {
 
         //check if given country can be provided by the service provider
         List<ServiceProvider>  serviceProviderList = user.getServiceProviderList();
-       ServiceProvider desiredOne = null;
-       Country country = null;
+        ServiceProvider desiredOne = null;
+        Country country = null;
 
        int id =  Integer.MAX_VALUE;
+
        for(ServiceProvider s : serviceProviderList){
            for(Country c : s.getCountryList()){
-               if(c.getCountryName().name().equals(countryName) && s.getId()<id){
+               if(c.getCountryName().toString().equalsIgnoreCase(countryName) && s.getId()<id){
                    id = s.getId();
                    desiredOne = s;
                    country = c;
@@ -102,7 +105,7 @@ public class ConnectionServiceImpl implements ConnectionService {
            if(sender.getOriginalCountry().getCode().equals(mask)){//receiver is connected to sender country
                return sender;
            }
-           //user is in different country so we have to establish a connection first with givencountry name
+           //user is in different country so we have to establish a connection first with given country name
            String countryName="";
            if(mask.equals(CountryName.AUS.toCode()))countryName= CountryName.AUS.toString();
            if(mask.equals(CountryName.IND.toCode()))countryName= CountryName.IND.toString();
